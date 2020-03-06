@@ -1,0 +1,140 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Главная</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <div th:insert="~{fragments :: navigation}"/>
+
+
+            <div class="row justify-content-between my-3">
+                <div class="col-6 align-content-start">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th colspan="2" class="text-center">Личные данные</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>ФИО</td>
+                            <td>Угрик Павел Владимирович</td>
+                        </tr>
+                        <tr>
+                            <td>e-mail</td>
+                            <td>sniper.expert@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>Телефон</td>
+                            <td>+380638044424</td>
+                        </tr>
+                        <tr>
+                            <td>№ Квартиры</td>
+                            <td><span th:text="${user.apartment}"/>340</td>
+                        </tr>
+                        <tr>
+                            <td>Площадь</td>
+                            <td><span th:text="${user.house_space}"/>72.4</td>
+                        </tr>
+                        <tr>
+                            <td>Этаж</td>
+                            <td><span th:text="${user.floor}"/>1</td>
+                        </tr>
+                        <tr>
+                            <td>Проживающих</td>
+                            <td><span th:text="${user.residents}"/>1</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-4 align-content-end">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th colspan="2" class="text-center">Тарифы</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="w-50"><small>СДПТ</small></td>
+                            <td><span th:if="${user.floor > 1}"><span th:text="${user.tarif.sdtp_high}"/></span>
+                                <span th:if="${user.floor <= 1}"><span th:text="${user.tarif.sdpt_low}"/></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Охрана</td>
+                            <td><span th:text="${user.tarif.security}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Вывоз мусора</td>
+                            <td><span th:text="${user.tarif.garbage}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Водоснабжение</td>
+                            <td><span th:text="${user.tarif.water}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Электроэнегрия</td>
+                            <td><span th:text="${user.tarif.electric}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Газоснабжение</td>
+                            <td><span th:text="${user.tarif.gas}"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <form th:action="@{/input}" method="post" class="container w-75">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <h4>Ввод показаний:</h4>
+                <table class="table table-bordered text-center">
+                    <thead>
+                    <tr>
+                        <th class="w-50">Услуга</th>
+                        <th class="w-25">Последние показания<br>
+                            (<span th:text="${user.update}"/>)
+                        </th>
+                        <th class="w-25">Текущие</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Електроэнергия</td>
+                        <td><span th:text="${user.electric}"/></td>
+                        <td><input class="w-50" type="text" name="electric_current"></td>
+                    </tr>
+                    <tr>
+                        <td>Водоснабжение</td>
+                        <td><span th:text="${user.water}"/></td>
+                        <td><input class="w-50" type="text" name="water_current"></td>
+                    </tr>
+                    <tr>
+                        <td>Газ</td>
+                        <td><span th:text="${user.gas}"/></td>
+                        <td><input class="w-50" type="text" name="gas_current"></td>
+                    </tr>
+                    </tbody>
+                    <tfoor>
+                        <tr>
+                            <td colspan="3">
+                                <div class="float-right mr-5 pr-1">
+                                    <input type="submit" value="Ввести">
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoor>
+                </table>
+            </form>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>
